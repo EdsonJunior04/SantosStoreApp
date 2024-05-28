@@ -8,11 +8,13 @@ const styles = StyleSheet.create({
         alignSelf: "center",
     },
     fotoFitas: {
-        height: 500,
+        height: 350,
+        width: 350,
         alignSelf: "center",
+        // backgroundColor: "white"
     },
     sobre:{
-        backgroundColor: "purple",
+        backgroundColor: "black",
         paddingVertical: 8,
         paddingHorizontal: 16,
       },

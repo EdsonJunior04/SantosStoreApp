@@ -19,13 +19,13 @@ const styles = StyleSheet.create({
     topo: {
       width: "100%",
       height: 1197 / 1600 * width,
+      marginTop: 140
     },
     titulo: {
       width: "100%",
       position: "absolute",
-      textAlign: "right",
-      fontSize: 22,
-      color: "white",
+      fontSize: 30,
+      color: "black",
       fontWeight: "bold",
       paddingTop: 70,
     },

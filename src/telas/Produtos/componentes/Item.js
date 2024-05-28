@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     item: {
         flexDirection: "row",
         borderBottomWidth: 1,
-        borderBottomColor: "#ECECEC",
+        borderBottomColor: "black",
         padding: 16,
         alignItems: "center",
     },
@@ -22,10 +22,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         lineHeight: 26,
         marginLeft: 11,
-        color: "#464646",
+        color: "yellow",
     },
     imagem: {
         width: 100,
         height: 100,
+        marginTop: 700,
     }
 })

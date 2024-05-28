@@ -23,7 +23,7 @@ export default function ListaProduto({itens}){
 const styles = StyleSheet.create({
   titulo: {
     fontSize: 26,
-    color: "purple",
+    color: "black",
     fontWeight: "bold",
     marginLeft: 10,
   }

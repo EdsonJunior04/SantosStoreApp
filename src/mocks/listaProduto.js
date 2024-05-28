@@ -9,19 +9,23 @@ const ListaProdutos =
       titulo: "Lista de Produtos",
       lista: [
         {
-          nome: "1x Camisa de Jogo Santos Branca",
+          nome: "Camisa de Jogo Santos Branca",
+          descricao: "Camisa do santos na promocao",
           imagem: camisa_santos_branca,
         },
         {
-          nome: "2x Camisa de Jogo do Santos Listrada",
+          nome: " Camisa de Jogo do Santos Listrada",
+          descricao: "Camisa do santos na promocao",
           imagem: camisa_santos_listrada,
         },
         {
-          nome: "1x Bola do Santos",
+          nome: " Bola do Santos",
+          descricao: "bola do santos na promocao",
           imagem: bola_santos,
         },
         {
-          nome: "1x Bola do Santos",
+          nome: " Bola do Santos",
+          descricao: "bola do santos na promocao",
           imagem: bola_santos,
         },
       ]

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
       paddingHorizontal: 16,
     },
     nome: {
-      color: "purple",
+      color: "black",
       fontSize: 26,
       fontWeight: "bold",
       paddingTop: 20,
@@ -33,14 +33,16 @@ const styles = StyleSheet.create({
       fontSize: 18,
     },
     preco: {
-      color: "#2A9F85",
+      color: "black",
       fontSize: 26,
       fontWeight: "bold",
-      marginTop: 8
+      marginTop: 8,
+      textAlign: "center",
+
     },
     logo: {
-      width: 80,
-      height: 80,
+      width: 70,
+      height: 70,
     },
     logotipo: {
       flexDirection: "row",

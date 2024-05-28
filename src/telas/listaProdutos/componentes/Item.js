@@ -3,10 +3,12 @@ import {View, Image, StyleSheet} from "react-native"
 
 import Texto from '../../../componentes/Texto'
 
-export default function ItemLista({item:{nome, imagem}}){
+export default function ItemLista({item:{nome, imagem, descricao}}){
     return <View key={nome} style={styles.item}>
                 <Image source={ imagem } style={styles.imagem} resizeMode="contain"/>
                 <Texto style={styles.nome}>{ nome }</Texto>
+                <Texto style={styles.nome}>{ descricao }</Texto>
+                <Texto></Texto>
             </View>
 }
 

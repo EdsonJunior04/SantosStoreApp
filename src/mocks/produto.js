@@ -1,4 +1,4 @@
-import Logo from '../assests/produtos/logo.png';
+import Logo from '../assests/produtos/santos.png';
 import camisa_santos_branca from '../assests/produtos/camisa_santos_branca_jogo.png'
 import camisa_santos_listrada from '../assests/produtos/camisa_santos_listrada.jpeg'
 import bola_santos from '../assests/produtos/bola_santos.jpeg'
