@@ -22,11 +22,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         lineHeight: 26,
         marginLeft: 11,
-        color: "yellow",
+        color: "black",
     },
     imagem: {
         width: 100,
         height: 100,
-        marginTop: 700,
     }
 })

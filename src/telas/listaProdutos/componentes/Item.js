@@ -1,33 +1,55 @@
 import React from "react";
-import {View, Image, StyleSheet} from "react-native"
+import { View, Image, StyleSheet } from "react-native"
 
 import Texto from '../../../componentes/Texto'
 
-export default function ItemLista({item:{nome, imagem, descricao}}){
-    return <View key={nome} style={styles.item}>
-                <Image source={ imagem } style={styles.imagem} resizeMode="contain"/>
-                <Texto style={styles.nome}>{ nome }</Texto>
-                <Texto style={styles.nome}>{ descricao }</Texto>
-                <Texto></Texto>
+export default function ItemLista({ item: { nome, imagem, descricao } }) {
+    return <View style={styles.fundo}>
+        <View style={styles.posicaoItem}>
+            <View key={nome} style={styles.item}>
+                <Texto style={styles.nome}>{nome}</Texto>
+                <Texto style={styles.descricao}>{descricao}</Texto>
+                <Image source={imagem} style={styles.imagem} resizeMode="contain" />
             </View>
+        </View>
+    </View>
 }
 
 const styles = StyleSheet.create({
-    item: {
+    posicaoItem: {
+        display: "flex",
+        flexWrap: "wrap",
         flexDirection: "row",
-        borderBottomWidth: 1,
-        borderBottomColor: "#ECECEC",
-        padding: 16,
-        alignItems: "center",
+        justifyContent: "center",
+        alignItems: "center"
     },
-    nome: {
+    descricao: {
         fontSize: 16,
         lineHeight: 26,
         marginLeft: 11,
-        color: "#464646",
+        fontWeight: "500",
+        color: "black",
+    },
+    item: {
+        width: "80%",
+        height: 300,
+        backgroundColor: "#E4E4E4",
+        borderRadius: 10,
+        borderColor: "black",
+        padding: 16,
+        alignItems: "center",
+        margin: 10
+    },
+    nome: {
+        fontSize: 20,
+        lineHeight: 26,
+        marginLeft: 11,
+        fontWeight: "bold",
+        color: "black",
     },
     imagem: {
-        width: 100,
-        height: 100,
+        width: 150,
+        height: 150,
+        marginTop: 30
     }
 })

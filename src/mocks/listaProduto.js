@@ -6,7 +6,7 @@ import bola_santos from '../assests/produtos/bola_santos.jpeg'
 const ListaProdutos = 
   {    
     itens: {
-      titulo: "Lista de Produtos",
+      titulo: "Veja nossos produtos!",
       lista: [
         {
           nome: "Camisa de Jogo Santos Branca",
