@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
     descricao: {
       color: "gray",
-      fontSize: 18,
+      fontSize: 26,
     },
     preco: {
       color: "black",

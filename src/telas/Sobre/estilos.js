@@ -4,17 +4,17 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     logo: {
         width: 300,
-        height: 300,
+        height: 250,
         alignSelf: "center",
     },
     fotoFitas: {
-        height: 350,
-        width: 350,
+        height: 300,
+        width: 300,
         alignSelf: "center",
-        // backgroundColor: "white"
+        margin: 20
     },
     sobre:{
-        backgroundColor: "black",
+        backgroundColor: "#E4E4E4",
         paddingVertical: 8,
         paddingHorizontal: 16,
       },
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         lineHeight: 26,
         marginBottom: 10,
-        color: "white",
+        color: "black",
         textAlign: "justify"
     },
 })

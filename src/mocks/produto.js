@@ -8,10 +8,10 @@ const produto = {
         titulo: "Detalhes do produto",
     },
     detalhes: {
-        nome: "Bola de Futebol do Santos",
+        nome: "Camisa de Jogo do santos branca",
         logo: Logo,
-        detalhes: "Uma bola do santos para você jogar futebol com seus amigos!",
-        preco: "R$ 50,00",
+        detalhes: "Camisa oficial de jogo do santos!",
+        preco: "R$ 450,00",
         botao: "Adicionar na Lista de Desejos",
     },
     itens: {
