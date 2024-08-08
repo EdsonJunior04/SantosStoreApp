@@ -3,7 +3,8 @@ import {
   Kanit_200ExtraLight,
   Kanit_600SemiBold
 } from '@expo-google-fonts/kanit';
-import { View } from "react-native";
+import React, {useState, useEffect} from 'react';
+import { View, TouchableOpacity } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -15,6 +16,9 @@ import mock from './src/mocks/produto'
 import mock_lista from './src/mocks/listaProduto'
 import mock_sobre from './src/mocks/sobre'
 
+//Audio
+import {Audio} from 'expo-av';
+
 function MenuKit() {
   return <Produto {...mock} />
 }
@@ -25,6 +29,44 @@ function MenuSobre() {
 
 function MenuListaProduto() {
   return <ListaProduto {...mock_lista} />
+}
+
+function MenuAudio(){
+
+  //Áudio para o APP
+  const [audioStatus, setAudioStatus] = useState(false)
+  const [sound, setSound] = useState(null);
+  const [loading, setLoading] = useState(false);
+  
+  useEffect(() => {
+    (async () => {
+      console.log('status', audioStatus);
+      if (audioStatus) {
+        setLoading(true);
+        const { sound } = await Audio.Sound.createAsync(require('./assets/acdc_highway_to_hell.mp3'));
+        setSound(sound);
+        try {
+          await sound.playAsync();
+        } catch (e) {
+          console.log(e);
+        }
+        setLoading(false);
+      } else {
+        if (sound) {
+          try {
+            await sound.stopAsync();
+            await sound.unloadAsync();
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      }
+    })();
+  }, [audioStatus]);
+
+  return <TouchableOpacity onPress={() => { if(!loading) {setAudioStatus(!audioStatus);}}}>
+            <Texto style={Styles.botaoAudio}>🎧 On/Off</Texto>
+          </TouchableOpacity>
 }
 
 const Tab = createBottomTabNavigator();
@@ -82,5 +124,6 @@ export default function App() {
 
   return <NavigationContainer >
     <TabsMenu />
+    <MenuAudio />
   </NavigationContainer>
 }
