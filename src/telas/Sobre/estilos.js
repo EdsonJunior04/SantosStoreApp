@@ -18,6 +18,11 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
       },
+      video: {
+        width: 300,
+        height: 250
+      }
+      ,
     textoSobre: {
         fontSize: 20,
         lineHeight: 26,

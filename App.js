@@ -11,10 +11,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Produto from './src/telas/Produtos'
 import Sobre from './src/telas/Sobre'
+import Perfil from './src/telas/perfil'
 import ListaProduto from './src/telas/listaProdutos'
 import mock from './src/mocks/produto'
 import mock_lista from './src/mocks/listaProduto'
 import mock_sobre from './src/mocks/sobre'
+import Texto from './src/componentes/Texto'
+
 
 //Audio
 import {Audio} from 'expo-av';
@@ -29,6 +32,10 @@ function MenuSobre() {
 
 function MenuListaProduto() {
   return <ListaProduto {...mock_lista} />
+}
+
+function MenuPerfil() {
+  return <Perfil {...mock_sobre} />
 }
 
 function MenuAudio(){
@@ -65,7 +72,7 @@ function MenuAudio(){
   }, [audioStatus]);
 
   return <TouchableOpacity onPress={() => { if(!loading) {setAudioStatus(!audioStatus);}}}>
-            <Texto style={Styles.botaoAudio}>🎧 On/Off</Texto>
+            <Texto>🎧 On/Off</Texto>
           </TouchableOpacity>
 }
 
@@ -85,6 +92,10 @@ function TabsMenu() {
           iconName = focused
             ? 'apps'
             : 'apps-outline';
+        } else if (route.name === "Perfil") {
+          iconName = focused
+            ? 'heart'
+            : 'heart-outline';
         } else if (route.name === "Produtos") {
           iconName = focused
             ? 'grid'
@@ -106,6 +117,7 @@ function TabsMenu() {
     <Tab.Screen name="Kit" component={MenuKit} />
     <Tab.Screen name="Produtos" component={MenuListaProduto} />
     <Tab.Screen name="Lista de Desejos" component={MenuKit} />
+    <Tab.Screen name="Perfil" component={MenuPerfil} />
   </Tab.Navigator>
 }
 
