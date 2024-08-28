@@ -35,7 +35,7 @@ function MenuListaProduto() {
 }
 
 function MenuPerfil() {
-  return <Perfil {...mock_sobre} />
+  return <Perfil  {...mock_sobre} />
 }
 
 function MenuAudio(){
