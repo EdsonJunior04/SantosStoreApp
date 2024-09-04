@@ -1,87 +1,135 @@
-    import React, { useState, useEffect } from "react";
-    import { ScrollView, TextInput, Alert, View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
-    import { Camera, CameraType } from "expo-camera";
-    import * as Permissions from 'expo-permissions';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput, Alert, ScrollView } from 'react-native';
+import { Camera } from 'expo-camera';
 
-    import Botao from "./componentes/Botao";
+export default function Perfil() {
+    const [hasPermission, setHasPermission] = useState(null);
+    const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+    const [imageUri, setImageUri] = useState(null);
+    const cameraRef = useRef(null);
 
-    export default function Perfil() {
-        const [hasPermission, setHasPermission] = useState(null);
-        const [type, setType] = useState(CameraType.back);
-        const [image, setImage] = useState(null);
-
-        useEffect(() => {
-            (async () => {
-                const { status } = await Permissions.askAsync(Permissions.CAMERA);
-                setHasPermission(status === 'granted');
-            })();
-        }, []);
-
-        const takePicture = async () => {
-            if (cameraRef) {
-                const data = await cameraRef.current.takePictureAsync(null);
-                setImage(data.uri);
-            }
+    useEffect(() => {
+        const getPermissions = async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            setHasPermission(status === 'granted');
         };
+        getPermissions();
+    }, []);
 
-        const flipCamera = () => {
-            setType(
-                type === CameraType.back ? CameraType.front : CameraType.back
-            );
-        };
+    const takePicture = async () => {
+        if (cameraRef.current) {
+            const photo = await cameraRef.current.takePictureAsync();
+            setImageUri(photo.uri);
+        }
+    };
 
-        return (
-            <ScrollView >
-                
-                <View style={{ flex: 1 }}>
-                    {hasPermission === null && <Text>Esperando a permissão...</Text>}
-                    {hasPermission === false && <Text>Permissão da camera negada</Text>}
-                    <Text>AQUI</Text>
-                    {hasPermission === true && (
-                        <View style={{ flex: 1 }}>
-                            <Camera style={{ flex: 1, height: 600 }} type={type} ref={(ref) => {
-                                cameraRef = ref;
-                            }} />
-                            <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-                                <TouchableOpacity
-                                    onPress={takePicture}>
-                                    <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>Tirar Foto</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    onPress={flipCamera}>
-                                    <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>Virar Camera</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                     )} 
-                </View>
-                
-                {image && <Image source={{ uri: image }} style={{ width: 900, height: 900 }} />}
-                
-                <TextInput placeholder="Digite seu nome" />
-                <TextInput placeholder="Digite seu sobrenome" />
-                <TextInput placeholder="Digite sua idade" keyboardType="numeric" />
-
-                <Botao acaoBotao={() => { Alert.alert("Cadastro Salvo!!!") }} />
-            </ScrollView>
+    const switchCamera = () => {
+        setCameraType(
+            cameraType === Camera.Constants.Type.back
+                ? Camera.Constants.Type.front
+                : Camera.Constants.Type.back
         );
-    }
+    };
 
+    return (
+        <ScrollView style={styles.container}>
+            <View style={styles.cameraContainer}>
+                {hasPermission === null && <Text>Esperando a permissão...</Text>}
+                {hasPermission === false && <Text>Permissão da câmera negada</Text>}
+                {hasPermission && (
+                    <View style={styles.cameraView}>
+                        <Camera
+                            ref={cameraRef}
+                            style={styles.camera}
+                            type={cameraType}
+                        />
+                        <View style={styles.buttonsContainer}>
+                            <TouchableOpacity onPress={takePicture} style={styles.button}>
+                                <Text style={styles.buttonText}>Tirar Foto</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={switchCamera} style={styles.button}>
+                                <Text style={styles.buttonText}>Virar Câmera</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                )}
+            </View>
 
+            {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
 
-    const styles = StyleSheet.create({
-        botao: {
-            marginTop: 16,
-            backgroundColor: "white",
-            paddingVertical: 16,
-            borderRadius: 6,
-            width: 100,
-        },
-        botaoTexto: {
-            textAlign: "center",
-            color: "#000000",
-            fontSize: 20,
-            lineHeight: 26,
-            fontWeight: "bold",
-        },
-    })
+            <TextInput placeholder="Digite seu nome" style={styles.input} />
+            <TextInput placeholder="Digite seu sobrenome" style={styles.input} />
+            <TextInput placeholder="Digite sua idade" keyboardType="numeric" style={styles.input} />
+
+            <TouchableOpacity
+                style={styles.submitButton}
+                onPress={() => Alert.alert("Cadastro Salvo!!!")}
+            >
+                <Text style={styles.submitButtonText}>Salvar</Text>
+            </TouchableOpacity>
+        </ScrollView>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 16,
+    },
+    cameraContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cameraView: {
+        flex: 1,
+        width: '100%',
+        justifyContent: 'flex-end',
+    },
+    camera: {
+        flex: 1,
+        height: 400,
+        borderRadius: 10,
+    },
+    buttonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+        paddingHorizontal: 20,
+        marginTop: 10,
+    },
+    button: {
+        backgroundColor: '#fff',
+        padding: 10,
+        borderRadius: 5,
+        width: '45%',
+        alignItems: 'center',
+    },
+    buttonText: {
+        fontSize: 16,
+        color: '#000',
+    },
+    image: {
+        width: '100%',
+        height: 300,
+        marginVertical: 10,
+        borderRadius: 10,
+    },
+    input: {
+        height: 40,
+        borderColor: 'gray',
+        borderBottomWidth: 1,
+        marginBottom: 20,
+        paddingHorizontal: 10,
+    },
+    submitButton: {
+        backgroundColor: '#2196F3',
+        padding: 15,
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    submitButtonText: {
+        color: '#fff',
+        fontSize: 16,
+    },
+});
