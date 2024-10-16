@@ -34,32 +34,33 @@ export default function Perfil() {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.cameraContainer}>
-                {hasPermission === null && <Text>Esperando a permissão...</Text>}
-                {hasPermission === false && <Text>Permissão da câmera negada</Text>}
+                {hasPermission === null && <Text style={styles.permissionText}>Esperando a permissão...</Text>}
+                {hasPermission === false && <Text style={styles.permissionText}>Permissão da câmera negada</Text>}
                 {hasPermission && (
-                    <View style={styles.cameraView}>
-                        <Camera
-                            ref={cameraRef}
-                            style={styles.camera}
-                            type={cameraType}
-                        />
-                        <View style={styles.buttonsContainer}>
-                            <TouchableOpacity onPress={takePicture} style={styles.button}>
-                                <Text style={styles.buttonText}>Tirar Foto</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={switchCamera} style={styles.button}>
-                                <Text style={styles.buttonText}>Virar Câmera</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                    <Camera
+                        ref={cameraRef}
+                        style={styles.camera}
+                        type={cameraType}
+                    />
                 )}
             </View>
 
             {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
 
-            <TextInput placeholder="Digite seu nome" style={styles.input} />
-            <TextInput placeholder="Digite seu sobrenome" style={styles.input} />
-            <TextInput placeholder="Digite sua idade" keyboardType="numeric" style={styles.input} />
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={takePicture} style={styles.button}>
+                    <Text style={styles.buttonText}>Tirar Foto</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={switchCamera} style={styles.button}>
+                    <Text style={styles.buttonText}>Virar Câmera</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.inputContainer}>
+                <TextInput placeholder="Digite seu nome" style={styles.input} />
+                <TextInput placeholder="Digite seu email" style={styles.input} />
+                <TextInput placeholder="Digite sua idade" keyboardType="numeric" style={styles.input} />
+            </View>
 
             <TouchableOpacity
                 style={styles.submitButton}
@@ -75,28 +76,26 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
+        backgroundColor: '#f5f5f5',
     },
     cameraContainer: {
-        flex: 1,
+        height: 400, // Define a altura da câmera
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    cameraView: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'flex-end',
+        marginBottom: 20,
+        borderRadius: 10,
+        overflow: 'hidden',
+        backgroundColor: '#000',
     },
     camera: {
         flex: 1,
-        height: 400,
-        borderRadius: 10,
+        width: '100%',
     },
-    buttonsContainer: {
+    buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '100%',
         paddingHorizontal: 20,
-        marginTop: 10,
+        marginBottom: 20,
     },
     button: {
         backgroundColor: '#fff',
@@ -115,12 +114,17 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderRadius: 10,
     },
+    inputContainer: {
+        marginBottom: 20,
+    },
     input: {
         height: 40,
         borderColor: 'gray',
         borderBottomWidth: 1,
         marginBottom: 20,
         paddingHorizontal: 10,
+        backgroundColor: '#fff',
+        borderRadius: 5,
     },
     submitButton: {
         backgroundColor: '#2196F3',
@@ -131,5 +135,10 @@ const styles = StyleSheet.create({
     submitButtonText: {
         color: '#fff',
         fontSize: 16,
+    },
+    permissionText: {
+        textAlign: 'center',
+        marginVertical: 10,
+        color: '#f00',
     },
 });
