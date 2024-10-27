@@ -8,7 +8,7 @@ export default function ListaProduto({ itens }) {
     <FlatList
       data={itens.lista}
       renderItem={ItemLista}
-      keyExtractor={item => item.id.toString()} // Use o id como chave
+      keyExtractor={item => item.id.toString()} 
       ListHeaderComponent={() => (
         <View style={styles.posicao}>
           <Texto style={styles.titulo}>{itens.titulo}</Texto>

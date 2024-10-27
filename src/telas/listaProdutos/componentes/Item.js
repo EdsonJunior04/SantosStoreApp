@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Image, StyleSheet, Alert } from "react-native";
+import { View, Image, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Texto from '../../../componentes/Texto';
 import Botao from '../../../componentes/Botao';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function ItemLista({ item: { id, nome, imagem, descricao, botao } }) {
 
@@ -33,7 +34,10 @@ export default function ItemLista({ item: { id, nome, imagem, descricao, botao }
                     <Texto style={styles.nome}>{nome}</Texto>
                     <Texto style={styles.descricao}>{descricao}</Texto>
                     <Image source={imagem} style={styles.imagem} resizeMode="contain" />
-                    <Botao style={styles.botao} textoBotao={botao} onPress={() => addListaDesejos(id, nome, imagem, descricao)} />
+                    {/* <Botao style={styles.botao} textoBotao={botao} onPress={() => addListaDesejos(id, nome, imagem, descricao)} /> */}
+                    <TouchableOpacity onPress={() => addListaDesejos(id, nome, imagem, descricao)}>
+                        <Ionicons name="heart" size={30} color="red" />
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
