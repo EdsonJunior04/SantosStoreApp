@@ -4,7 +4,7 @@ import { Camera } from 'expo-camera';
 
 export default function Perfil() {
     const [hasPermission, setHasPermission] = useState(null);
-    const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+    const [cameraType, setCameraType] = useState('back'); // 'back' ou 'front'
     const [imageUri, setImageUri] = useState(null);
     const cameraRef = useRef(null);
 
@@ -16,6 +16,11 @@ export default function Perfil() {
         getPermissions();
     }, []);
 
+    const requestCameraPermission = async () => {
+        const { status } = await Camera.requestCameraPermissionsAsync();
+        setHasPermission(status === 'granted');
+    };
+
     const takePicture = async () => {
         if (cameraRef.current) {
             const photo = await cameraRef.current.takePictureAsync();
@@ -24,18 +29,21 @@ export default function Perfil() {
     };
 
     const switchCamera = () => {
-        setCameraType(
-            cameraType === Camera.Constants.Type.back
-                ? Camera.Constants.Type.front
-                : Camera.Constants.Type.back
-        );
+        setCameraType(cameraType === 'back' ? 'front' : 'back');
     };
 
     return (
         <ScrollView style={styles.container}>
             <View style={styles.cameraContainer}>
-                {hasPermission === null && <Text style={styles.permissionText}>Esperando a permissão...</Text>}
-                {hasPermission === false && <Text style={styles.permissionText}>Permissão da câmera negada</Text>}
+                {hasPermission === null && <Text style={styles.permissionText}>Aguardando permissão...</Text>}
+                {hasPermission === false && (
+                    <>
+                        <Text style={styles.permissionText}>Permissão da câmera negada</Text>
+                        <TouchableOpacity onPress={requestCameraPermission} style={styles.button}>
+                            <Text style={styles.buttonText}>Pedir Permissão</Text>
+                        </TouchableOpacity>
+                    </>
+                )}
                 {hasPermission && (
                     <Camera
                         ref={cameraRef}
@@ -79,7 +87,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     cameraContainer: {
-        height: 400, // Define a altura da câmera
+        height: 400,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 20,

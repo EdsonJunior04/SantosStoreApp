@@ -11,7 +11,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Produto from './src/telas/Produtos'
 import Sobre from './src/telas/Sobre'
-import Perfil from './src/telas/perfil'
+import Perfil from './src/telas/perfil/index'
 import ListaProduto from './src/telas/listaProdutos'
 import mock from './src/mocks/produto'
 import mock_lista from './src/mocks/listaProduto'
@@ -35,7 +35,7 @@ function MenuListaProduto() {
 }
 
 function MenuPerfil() {
-  return <Perfil  {...mock_sobre} />
+  return <Perfil  />
 }
 
 function MenuAudio(){
