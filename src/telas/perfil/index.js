@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput, Alert, ScrollView } from 'react-native';
 import { Camera } from 'expo-camera';
+import axios from 'axios';
 
 export default function Perfil() {
     const [hasPermission, setHasPermission] = useState(null);
-    const [cameraType, setCameraType] = useState('back'); // 'back' ou 'front'
+    const [cameraType, setCameraType] = useState('back');
     const [imageUri, setImageUri] = useState(null);
+    const [cep, setCep] = useState('');
+    const [address, setAddress] = useState({});
     const cameraRef = useRef(null);
 
     useEffect(() => {
@@ -30,6 +33,19 @@ export default function Perfil() {
 
     const switchCamera = () => {
         setCameraType(cameraType === 'back' ? 'front' : 'back');
+    };
+
+    const fetchAddress = async () => {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            if (response.data) {
+                setAddress(response.data);
+            } else {
+                Alert.alert("CEP não encontrado.");
+            }
+        } catch (error) {
+            Alert.alert("Erro ao buscar o endereço.");
+        }
     };
 
     return (
@@ -68,6 +84,24 @@ export default function Perfil() {
                 <TextInput placeholder="Digite seu nome" style={styles.input} />
                 <TextInput placeholder="Digite seu email" style={styles.input} />
                 <TextInput placeholder="Digite sua idade" keyboardType="numeric" style={styles.input} />
+                <TextInput
+                    placeholder="Digite seu CEP"
+                    keyboardType="numeric"
+                    style={styles.input}
+                    value={cep}
+                    onChangeText={setCep}
+                />
+                <TouchableOpacity onPress={fetchAddress} style={styles.button}>
+                    <Text style={styles.buttonText}>Buscar Endereço</Text>
+                </TouchableOpacity>
+
+                {address.logradouro && (
+                    <View style={styles.addressContainer}>
+                        <Text>Rua: {address.logradouro}</Text>
+                        <Text>Bairro: {address.bairro}</Text>
+                        <Text>Estado: {address.uf}</Text>
+                    </View>
+                )}
             </View>
 
             <TouchableOpacity
@@ -132,6 +166,12 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         paddingHorizontal: 10,
         backgroundColor: '#fff',
+        borderRadius: 5,
+    },
+    addressContainer: {
+        marginTop: 10,
+        padding: 10,
+        backgroundColor: '#e0e0e0',
         borderRadius: 5,
     },
     submitButton: {

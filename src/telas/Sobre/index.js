@@ -14,7 +14,7 @@ export default function Index({ textos }) {
         <Texto style={Styles.textoSobre}>{textos.historia}</Texto>
         <Image source={textos.img_producao} style={Styles.fotoFitas} resizeMode="contain" />
         <Texto style={Styles.textoSobre}>{textos.texto_imagem}</Texto>
-        <Video ref={video} style={styles.video} source={{ uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }} useNativeControls resizeMode={ResizeMode.CONTAIN}
+        <Video ref={video} style={styles.video} source={{ uri: './assets/NEYMAR_ROBINHO_E_GANSO.mp4' }} useNativeControls resizeMode={ResizeMode.CONTAIN}
         isLooping
         onPlaybackStatusUpdate={status => setStatus(() => status)} />
     </ScrollView>

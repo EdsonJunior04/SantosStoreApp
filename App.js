@@ -21,6 +21,7 @@ import Texto from './src/componentes/Texto'
 
 //Audio
 import {Audio} from 'expo-av';
+import ListaDesejos from './src/telas/ListaDesejos';
 
 function MenuKit() {
   return <Produto {...mock} />
@@ -50,7 +51,7 @@ function MenuAudio(){
       console.log('status', audioStatus);
       if (audioStatus) {
         setLoading(true);
-        const { sound } = await Audio.Sound.createAsync(require('./assets/acdc_highway_to_hell.mp3'));
+        const { sound } = await Audio.Sound.createAsync(require('./assets/Hino_do_Santos.mp3'));
         setSound(sound);
         try {
           await sound.playAsync();
@@ -116,7 +117,7 @@ function TabsMenu() {
     <Tab.Screen name="Sobre nós" component={MenuSobre} />
     <Tab.Screen name="Kit" component={MenuKit} />
     <Tab.Screen name="Produtos" component={MenuListaProduto} />
-    <Tab.Screen name="Lista de Desejos" component={MenuKit} />
+    <Tab.Screen name="Lista de Desejos" component={ListaDesejos} />
     <Tab.Screen name="Perfil" component={MenuPerfil} />
   </Tab.Navigator>
 }

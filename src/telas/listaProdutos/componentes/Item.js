@@ -1,64 +1,39 @@
 import React from "react";
 import { View, Image, StyleSheet, Alert } from "react-native";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Texto from '../../../componentes/Texto';
-import Botao from '../../../componentes/Botao'
+import Botao from '../../../componentes/Botao';
 
-export default function ItemLista({ item: { nome, imagem, descricao, botao } }) {
+export default function ItemLista({ item: { id, nome, imagem, descricao, botao } }) {
 
-    async function addListaDesejos( nome, imagem) {
-
-        //Produto favoritado
-        const addProduto = [{
-            
-            nome: nome,
-            imagem: imagem,
-        }];
-
-        //Verifica se a lista está vazia
+    // Função para inserir itens na lista de desejos
+    async function addListaDesejos(id, nome, imagem, descricao) {
+        const newProduto = { id, nome, imagem, descricao };
         const listaDesejosSalva = await AsyncStorage.getItem('ListaDesejos');
 
+        // Se a lista não existe, cria uma nova
         if (listaDesejosSalva == null) {
-            //Lista vazia, insere o procuto clicado
-            const listaDesejosAtulizada = JSON.stringify(addProduto);
-
-            //Insere no AsyncStorage
-            await AsyncStorage.setItem('ListaDesejos', listaDesejosAtulizada);
-            Alert.alert("O produto foi incluido com sucesso na Lista de Desejos!");
-            console.log("Adicionou produto");
-            console.log(listaDesejosAtulizada);
+            const listaDesejosAtualizada = JSON.stringify([newProduto]);
+            await AsyncStorage.setItem('ListaDesejos', listaDesejosAtualizada);
+            Alert.alert("Inserido na Lista de Desejos com sucesso.");
         } else {
-            //A lista já possui itens
+            // A lista já existe, adiciona o novo produto
             const listaDesejos = JSON.parse(listaDesejosSalva);
-
-            //Insere mais um produto na lista
-            listaDesejos.push({ nome: nome, imagem: imagem });
-
-            //Converte o Array para String
-            const listaDesejosAtulizada = JSON.stringify(listaDesejos);
-
-            //Insere no AsyncStorage
-            await AsyncStorage.setItem('ListaDesejos', listaDesejosAtulizada);
-            Alert.alert("O produto foi incluido com sucesso na Lista de Desejos!");
-            console.log("Mais um produto na lista");
-            console.log(listaDesejosAtulizada);
+            listaDesejos.push(newProduto);
+            await AsyncStorage.setItem('ListaDesejos', JSON.stringify(listaDesejos));
+            Alert.alert("Inserido na Lista de Desejos com sucesso.");
         }
     }
-
-
-
-
-
-
 
     return (
         <View style={styles.fundo}>
             <View style={styles.posicaoItem}>
                 <View key={nome} style={styles.item}>
+                    <Texto style={styles.nome}>{id}</Texto>
                     <Texto style={styles.nome}>{nome}</Texto>
                     <Texto style={styles.descricao}>{descricao}</Texto>
                     <Image source={imagem} style={styles.imagem} resizeMode="contain" />
-                    <Botao style={styles.botao} textoBotao={botao} onPress={() => addListaDesejos(nome, imagem)} />
+                    <Botao style={styles.botao} textoBotao={botao} onPress={() => addListaDesejos(id, nome, imagem, descricao)} />
                 </View>
             </View>
         </View>
