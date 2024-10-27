@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Topo from './componentes/Topo';
 import Item from './componentes/Item';
 import Texto from '../../componentes/Texto';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 
 export default function ListaDesejos() {
@@ -30,13 +31,31 @@ export default function ListaDesejos() {
       await AsyncStorage.clear();
       console.log('AsyncStorage limpo com sucesso');
       Alert.alert("Lista de Desejos excluída com sucesso.");
-
-      // Remonta a lista de desejos para atualizar em tempo real
       navigation.reset({ index: 0, routes: [{ name: 'Lista de Desejos' }] });
     } catch (error) {
       console.error('Erro ao limpar o AsyncStorage:', error);
     }
   };
+
+  // Função para remover itens da Lista de Desejos
+  async function removeProdListaDesejos(id) {
+    const listaDesejosSalva = await AsyncStorage.getItem('ListaDesejos');
+    const listaDesejos = JSON.parse(listaDesejosSalva);
+
+    const listaDesejosAtualizada = JSON.stringify(listaDesejos.filter((item) => item.id !== id));
+    await AsyncStorage.setItem('ListaDesejos', listaDesejosAtualizada);
+    Alert.alert("Produto removido da Lista de Desejos.");
+    loadListData(); // Recarrega a lista após remoção
+  }
+
+  const renderItem = ({ item }) => (
+    <View style={styles.itemContainer}>
+      <Item item={item} />
+      <TouchableOpacity onPress={() => removeProdListaDesejos(item.id)} style={styles.trashIcon}>
+        <Ionicons name="trash-outline" size={24} color="red" />
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -44,7 +63,7 @@ export default function ListaDesejos() {
       <Texto style={styles.titulo}>Lista de Desejos</Texto>
       <FlatList
         data={listData}
-        renderItem={({ item }) => <Item item={item} />}
+        renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
         contentContainerStyle={styles.lista}
         showsVerticalScrollIndicator={false}
@@ -72,10 +91,20 @@ const styles = StyleSheet.create({
   lista: {
     paddingBottom: 20,
   },
+  itemContainer: {
+    backgroundColor: '#E4E4E4',
+    borderRadius: 10,
+    padding: 16,
+    marginVertical: 5,
+    alignItems: 'center', 
+  },
+  trashIcon: {
+    marginTop: 10,
+  },
   botao: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: '#ff4d4d', // Cor de fundo do botão
+    backgroundColor: '#ff4d4d',
     borderRadius: 5,
     alignItems: 'center',
   },
