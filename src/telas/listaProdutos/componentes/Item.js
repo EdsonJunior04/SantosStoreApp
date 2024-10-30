@@ -12,16 +12,19 @@ export default function ItemLista({ item: { id, nome, imagem, descricao, botao }
         const newProduto = { id, nome, imagem, descricao };
         const listaDesejosSalva = await AsyncStorage.getItem('ListaDesejos');
 
+
         // Se a lista não existe, cria uma nova
         if (listaDesejosSalva == null) {
             const listaDesejosAtualizada = JSON.stringify([newProduto]);
             await AsyncStorage.setItem('ListaDesejos', listaDesejosAtualizada);
+            console.log(newProduto);
             Alert.alert("Inserido na Lista de Desejos com sucesso.");
         } else {
             // A lista já existe, adiciona o novo produto
             const listaDesejos = JSON.parse(listaDesejosSalva);
             listaDesejos.push(newProduto);
             await AsyncStorage.setItem('ListaDesejos', JSON.stringify(listaDesejos));
+            console.log(newProduto);
             Alert.alert("Inserido na Lista de Desejos com sucesso.");
         }
     }

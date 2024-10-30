@@ -37,16 +37,7 @@ export default function ListaDesejos() {
     }
   };
 
-  // Função para remover itens da Lista de Desejos
-  async function removeProdListaDesejos(id) {
-    const listaDesejosSalva = await AsyncStorage.getItem('ListaDesejos');
-    const listaDesejos = JSON.parse(listaDesejosSalva);
-
-    const listaDesejosAtualizada = JSON.stringify(listaDesejos.filter((item) => item.id !== id));
-    await AsyncStorage.setItem('ListaDesejos', listaDesejosAtualizada);
-    Alert.alert("Produto removido da Lista de Desejos.");
-    loadListData(); // Recarrega a lista após remoção
-  }
+ 
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
@@ -63,7 +54,7 @@ export default function ListaDesejos() {
       <Texto style={styles.titulo}>Lista de Desejos</Texto>
       <FlatList
         data={listData}
-        renderItem={renderItem}
+        renderItem={({item})=><Item {...item}/>}
         keyExtractor={item => item.id.toString()}
         contentContainerStyle={styles.lista}
         showsVerticalScrollIndicator={false}

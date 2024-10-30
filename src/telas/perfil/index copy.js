@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput, Alert, ScrollView, Button } from 'react-native';
-import { Camera, CameraType } from 'expo-camera/legacy';
+import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput, Alert, ScrollView } from 'react-native';
+import { Camera } from 'expo-camera';
 import axios from 'axios';
 
 export default function Perfil() {
     const [hasPermission, setHasPermission] = useState(null);
-    const [cameraType, setCameraType] = useState(CameraType.back);
+    const [cameraType, setCameraType] = useState('back');
     const [imageUri, setImageUri] = useState(null);
     const [cep, setCep] = useState('');
     const [address, setAddress] = useState({});
@@ -32,7 +32,7 @@ export default function Perfil() {
     };
 
     const switchCamera = () => {
-        setCameraType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+        setCameraType(cameraType === 'back' ? 'front' : 'back');
     };
 
     const fetchAddress = async () => {
@@ -55,7 +55,9 @@ export default function Perfil() {
                 {hasPermission === false && (
                     <>
                         <Text style={styles.permissionText}>Permissão da câmera negada</Text>
-                        <Button onPress={requestCameraPermission} title="Pedir Permissão" />
+                        <TouchableOpacity onPress={requestCameraPermission} style={styles.button}>
+                            <Text style={styles.buttonText}>Pedir Permissão</Text>
+                        </TouchableOpacity>
                     </>
                 )}
                 {hasPermission && (
@@ -63,20 +65,20 @@ export default function Perfil() {
                         ref={cameraRef}
                         style={styles.camera}
                         type={cameraType}
-                    >
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.cameraButton} onPress={switchCamera}>
-                                <Text style={styles.buttonText}>Virar Câmera</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.cameraButton} onPress={takePicture}>
-                                <Text style={styles.buttonText}>Tirar Foto</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </Camera>
+                    />
                 )}
             </View>
 
             {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={takePicture} style={styles.button}>
+                    <Text style={styles.buttonText}>Tirar Foto</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={switchCamera} style={styles.button}>
+                    <Text style={styles.buttonText}>Virar Câmera</Text>
+                </TouchableOpacity>
+            </View>
 
             <View style={styles.inputContainer}>
                 <TextInput placeholder="Digite seu nome" style={styles.input} />
@@ -133,23 +135,20 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
         marginBottom: 20,
-        position: 'absolute',
-        bottom: 20,
-        width: '100%',
     },
-    cameraButton: {
-        backgroundColor: '#2196F3',
-        padding: 15,
+    button: {
+        backgroundColor: '#fff',
+        padding: 10,
         borderRadius: 5,
-        width: '40%',
+        width: '45%',
         alignItems: 'center',
     },
     buttonText: {
-        fontSize: 18,
-        color: '#fff',
-        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#000',
     },
     image: {
         width: '100%',
